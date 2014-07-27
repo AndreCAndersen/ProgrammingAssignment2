@@ -68,31 +68,45 @@ cacheSolve <- function(x, ...) {
 ## This function is used to test if the functions makeCacheMatrix and cacheSolve
 ## have correct behaviour. It generates the following output:
 ## > run_tests(1000)
-## [1] "Test 2: Speed test:"
+## [1] "Test 1: Speed test"
 ## [1] "-Success: The cached version (0.0000s) was faster than the uncached 
-## version (1.2500s)."
-## [1] "Test 2: Equals test results of uncahced version:"
+## version (0.9600s)."
+## [1] "Test 2: Equals test results of uncahced version"
 ## [1] "-Success: The uncached matrix is equal to the expected matrix."
-## [1] "Test 3: Equals test results of cahced version:"
+## [1] "Test 3: Equals test results of cahced version"
 ## [1] "-Success: The cached matrix is equal to the expected matrix."
 run_tests <- function (m_size = 1000){
+    ## Creating a random matrix
     m <- matrix(runif(m_size^2, 5.0, 7.5), m_size, m_size)
+    
+    ## Solving the inverse matrix manually
     m_inv_expected = solve(m)
     
+    ## Creating wrapped inverse cachable matrix
     m_cached = makeCacheMatrix(m)
     
+    ## Time test of uncached version
     start_time <- proc.time()
+    
+    ## Solving the inverse for the first time uncached.
     m_inv_uncache = cacheSolve(m_cached)
+    
+    ## Time test results
     time_uncached <- proc.time() - start_time
     time_uncached_output = format(time_uncached['elapsed'], digits=4, nsmall=4)
     
-    ##Testing the 
+    ## Time test of cached version
     start_time <- proc.time()
+    
+    ## "Solving" the inverse for the second time, using the cache.
     m_inv_cache = cacheSolve(m_cached)
+    
+    ## Time test results
     time_cached <- proc.time() - start_time
     time_cached_output = format(time_cached['elapsed'], digits=4, nsmall=4)
     
-    print("Test 2: Speed test:")
+    ## Printing test results
+    print("Test 1: Speed test")
     if(time_uncached['elapsed'] > time_cached['elapsed']){
         print(
             paste(
@@ -125,11 +139,12 @@ run_tests <- function (m_size = 1000){
         )
     }
     
+    ## Simple function to check if two matrices are equal in shape and content.
     matequal <- function(x, y){
         is.matrix(x) && is.matrix(y) && dim(x) == dim(y) && all(x == y)
     }
     
-    print("Test 2: Equals test results of uncahced version:")
+    print("Test 2: Equals test results of uncahced version")
     if(matequal(m_inv_expected, m_inv_uncache)){ 
         print(
             "-Success: The uncached matrix is equal to the expected matrix."
@@ -140,7 +155,7 @@ run_tests <- function (m_size = 1000){
         )
     }
     
-    print("Test 3: Equals test results of cahced version:")
+    print("Test 3: Equals test results of cahced version")
     if(matequal(m_inv_expected, m_inv_cache)){ 
         print(
             "-Success: The cached matrix is equal to the expected matrix."
