@@ -1,3 +1,8 @@
+### Assignment information
+*  Coursera Course: R-programming, rprog-005, 2014
+*  Programming Assignment 2: Lexical Scoping
+*  Student: Andre Christoffer Andersen
+
 ### Introduction
 
 This second programming assignment will require you to write an R
