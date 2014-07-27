@@ -14,6 +14,8 @@ makeCacheMatrix <- function(x = matrix()) {
     ## Sets the inner matrix of the matrix wrapper. 
     ## New matrix, means also resetting the cached inverse.
     set <- function(y) {
+        ## Notice the <<- operator, which searches through parent environments 
+        ## for an existing definition of the variable being assigned.
         inner_matrix <<- y
         cached_inverse_matrix <<- NULL
     }
